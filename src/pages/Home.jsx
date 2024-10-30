@@ -1,6 +1,6 @@
 import logo from "./../assets/img/OutOutLogo.png";
 import background from "./../assets/img/LPImage.png";
-import doodles from "./../assets/img/bg1.png";
+import doodles from "./../assets/img/bg2.png";
 
 
 const Home = () => {
@@ -29,10 +29,10 @@ const Home = () => {
         <img
           src={background}
           alt=""
-          className="w-full lg:w-2/5 h-full lg:py-6 max-h-[100vh] object-contain"
+          className="h-[300px] md:h-[550px] w-full lg:w-2/5 lg:h-full lg:py-6 lg:max-h-[100vh] object-cover object-fit"
         />
       </div>
-      <img src={doodles} alt="" className="absolute bottom-0 left-0 w-3/5" />
+      <img src={doodles} alt="" className="lg:absolute bottom-0 left-0 lg:w-3/5" />
     </div>
   );
 };
