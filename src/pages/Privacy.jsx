@@ -2,9 +2,9 @@ import logo from "./../assets/img/OutOut.png"
 
 const Privacy = () => {
   return (
-    <div className="flex flex-col p-10 gap-5 justify-center w-4/5 mx-auto">
+    <div className="flex flex-col p-10 gap-5 justify-center w-[800px] mx-auto">
         <div className="flex justify-center  flex.col">
-<div className="flex-col flex items-center text-center">
+<div className="flex-col flex items-center text-center mb-6">
 
       <img src={logo} alt="outout Logo" className="w-1/4" />
       <div className="flex flex-col">
