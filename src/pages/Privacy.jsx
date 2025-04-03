@@ -2,7 +2,7 @@ import logo from "./../assets/img/OutOut.png"
 
 const Privacy = () => {
   return (
-    <div className="flex flex-col p-10 gap-5 justify-center w-[800px] mx-auto">
+    <div className="flex flex-col p-10 gap-5 justify-center md:w-[800px] mx-auto">
         <div className="flex justify-center  flex.col">
 <div className="flex-col flex items-center text-center mb-6">
 
@@ -229,9 +229,15 @@ const Privacy = () => {
               17 Holywell Hill, St. Albans, Hertfordshire, AL1 1DT, United
               Kingdom.
             </span>
-            <span className="block my-2">
-              Email: <a href="mailto: hello@outout.app"> hello@outout.app</a>
+            <span className="flex flex-col my-2 space-y-1">
+                <span> 
+
+              Email: <a href="mailto: hello@outout.app"> get@outout.app</a>
+                </span>
+                <span>
+
               Phone: <a href="tel:+4407731782190">07731782190</a>
+                </span>
             </span>
           </li>
         </ol>
