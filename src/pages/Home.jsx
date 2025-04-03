@@ -1,6 +1,7 @@
 import logo from "./../assets/img/OutOutLogo.png";
 import background from "./../assets/img/LPImage.png";
 import doodles from "./../assets/img/bg2.png";
+import { Link } from "react-router-dom";
 
 
 const Home = () => {
@@ -20,9 +21,12 @@ const Home = () => {
           </p>
 
           <div className="w-auto">
-            <button className="px-20 py-3 text-light rounded-md bg-primary hover:bg-[#0e262e] transition duration-300 ease-in-out">
+            <button className="px-20 py-3 text-light rounded-md bg-primary hover:bg-[#3eb9e2] transition duration-300 ease-in-out">
               Join the Waitlist
             </button>
+
+            <Link to="/privacy" className="text-primary text-sm font-semibold ml-4 cursor-pointer">
+              Privacy Policy </Link>
           </div>
         </div>
 
