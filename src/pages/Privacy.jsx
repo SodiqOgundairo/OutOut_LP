@@ -3,7 +3,7 @@ import logo from "./../assets/img/OutOut.png"
 const Privacy = () => {
   return (
     <div className="flex flex-col p-10 gap-5">
-      <img src={logo} alt="outout Logo" className="w-[5%]" />
+      <img src={logo} alt="outout Logo" className="w-[5%] h-auto" />
       <p className="text-2xl text-primary font-bold">Privacy Policy</p>
       <p className="text-xl text-primary">Effective Date: 01/01/2025</p>
       <p>
