@@ -25,7 +25,7 @@ const Home = () => {
               Join the Waitlist
             </button>
 
-            <Link to="/privacy" className="text-primary hover:text-[#3eb9e2] text-sm font-semibold ml-4 cursor-pointer">
+            <Link to="/privacy" className="text-primary hover:text-[#3eb9e2] text-sm font-semibold ml-4 cursor-pointer my-4 md:my-0">
               Privacy Policy </Link>
           </div>
         </div>
