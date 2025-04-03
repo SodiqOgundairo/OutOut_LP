@@ -2,12 +2,18 @@ import logo from "./../assets/img/OutOut.png"
 
 const Privacy = () => {
   return (
-    <div className="flex flex-col p-10 gap-5">
-      <img src={logo} alt="outout Logo" className="w-[5%] h-auto" />
+    <div className="flex flex-col p-10 gap-5 justify-center w-4/5 mx-auto">
+        <div className="flex justify-center  flex.col">
+<div className="flex-col flex items-center text-center">
+
+      <img src={logo} alt="outout Logo" className="w-1/4" />
       <div className="flex flex-col">
         <p className="text-2xl text-primary font-bold">Privacy Policy</p>
         <p className="text-xl text-primary">Effective Date: 01/01/2025</p>
       </div>
+</div>
+        </div>
+
       <div className="text-primary font-normal flex flex-col gap-4">
         <p>
           {" "}
@@ -187,54 +193,48 @@ const Privacy = () => {
           </li>
 
           <li className="list-item list-decimal">
-            <span className="block font-bold">Cookies and Tracking Technologies </span> 
+            <span className="block font-bold">
+              Cookies and Tracking Technologies{" "}
+            </span>
+             
             <span className="block my-2">
-              9.1 We use cookies and similar
-        technologies to improve app performance and user experience. 
+              9.1 We use cookies and similar technologies to improve app
+              performance and user experience.
             </span>
             <span className="block my-2">
-              9.2 You can
-        manage your cookie preferences through your device settings. 
+              9.2 You can manage your cookie preferences through your device
+              settings.
             </span>
           </li>
 
           <li className="list-item list-decimal">
-            <span className="block font-bold">Changes to
-        This Privacy Policy </span> 
+            <span className="block font-bold">
+              Changes to This Privacy Policy{" "}
+            </span>
+             
             <span className="block my-2">
-             10.1 We may update this Privacy Policy from time to
-        time. Significant changes will be communicated via the app or email.
-        
+              10.1 We may update this Privacy Policy from time to time.
+              Significant changes will be communicated via the app or email.
             </span>
           </li>
 
           <li className="list-item list-decimal">
             <span className="block font-bold"> Contact Us </span> 
             <span className="block my-2">
-       If you have any questions or concerns about this Privacy
-        Policy or how we handle your data, please contact us at: 
+              If you have any questions or concerns about this Privacy Policy or
+              how we handle your data, please contact us at:
+            </span>
+            <span className="block my-2">OutOutAddress:</span>
+            <span className="block my-2">
+              17 Holywell Hill, St. Albans, Hertfordshire, AL1 1DT, United
+              Kingdom.
             </span>
             <span className="block my-2">
-         OutOutAddress:
-            </span>
-            <span className="block my-2">
-         17 Holywell Hill, St. Albans, Hertfordshire, AL1 1DT, United
-        Kingdom.
-            </span>
-            <span className="block my-2">
-         Email: <a href="mailto: hello@outout.app"> hello@outout.app</a>
-         
-         Phone: <a href="tel:+4407731782190">07731782190</a> 
+              Email: <a href="mailto: hello@outout.app"> hello@outout.app</a>
+              Phone: <a href="tel:+4407731782190">07731782190</a>
             </span>
           </li>
         </ol>
-        
-       
-        
-         
-       
-       
-      
       </div>
     </div>
   )
