@@ -1,8 +1,7 @@
-import logo from "./../assets/img/OutOutLogo.png";
-import background from "./../assets/img/LPImage.png";
-import doodles from "./../assets/img/bg2.png";
-import { Link } from "react-router-dom";
-
+import logo from "./../assets/img/OutOutLogo.png"
+import background from "./../assets/img/LPImage.png"
+import doodles from "./../assets/img/bg2.png"
+import { Link } from "react-router-dom"
 
 const Home = () => {
   return (
@@ -25,11 +24,21 @@ const Home = () => {
               Join the Waitlist
             </button>
 
-            <Link to="/privacy" className="text-primary hover:text-[#3eb9e2] text-sm font-semibold ml-4 cursor-pointer my-4 md:my-0 underline">
-              Privacy Policy </Link>
+            <Link
+              to="/privacy"
+              className="text-primary hover:text-[#3eb9e2] text-sm font-semibold ml-4 cursor-pointer my-4 md:my-0 underline"
+            >
+              Privacy Policy{" "}
+            </Link>
+
+            <a
+              href="mailto:get@outout.app"
+              className="text-primary hover:text-[#3eb9e2] text-sm font-semibold ml-4 cursor-pointer my-4 md:my-0 hover:underline"
+            >
+              Request Support
+            </a>
           </div>
         </div>
-
 
         <img
           src={background}
@@ -37,9 +46,13 @@ const Home = () => {
           className="h-[300px] md:h-[550px] w-full lg:w-2/5 lg:h-full lg:py-6 lg:max-h-[100vh] object-cover object-fit -z-50"
         />
       </div>
-      <img src={doodles} alt="" className="lg:absolute bottom-0 left-0 lg:w-3/5 -z-50" />
+      <img
+        src={doodles}
+        alt=""
+        className="lg:absolute bottom-0 left-0 lg:w-3/5 -z-50"
+      />
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
