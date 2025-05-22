@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import logo from "./../assets/img/OutOut.png"
 
 const Privacy = () => {
@@ -6,7 +7,9 @@ const Privacy = () => {
         <div className="flex justify-center  flex.col">
 <div className="flex-col flex items-center text-center mb-6">
 
+      <Link to="/" className="flex items-center gap-2"> 
       <img src={logo} alt="outout Logo" className="w-1/4" />
+      </Link> 
       <div className="flex flex-col">
         <p className="text-2xl text-primary font-bold">Privacy Policy</p>
         <p className="text-xl text-primary">Effective Date: 01/01/2025</p>
