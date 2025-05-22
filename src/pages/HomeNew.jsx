@@ -12,7 +12,7 @@ const HomeNew = () => {
       {/* <div className="flex flex-col items-center justify-center gap-8 text-center my-5">
 
       </div> */}
-      <h1 className="text-bolder text-primary text-4xl font-bold w-4/5 md:text-5xl md:w-3/5 lg:text-6xl lg:w-3/5 xl:text-7xl xl:w-2/5 ">
+      <h1 className="text-bolder text-primary text-4xl font-bold w-4/5 md:text-5xl md:w-3/5 lg:text-6xl lg:w-3/5 xl:text-7xl xl:w-3/5 ">
       {/* <h1 className="text-bolder text-primary text-3xl lg:text-7xl font-bold w-4/5 lg:w-2/5"> */}
         Share trips with the <br /> ones you love
       </h1>
