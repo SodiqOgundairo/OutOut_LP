@@ -17,9 +17,9 @@ const HomeNew = () => {
         Share trips with the <br /> ones you love
       </h1>
 
-      <p className="text-primary w-4/5 lg:w-2/5 ">
+      <p className="text-primary w-4/5 lg:w-4/5 ">
         A weekend getaway with your best friends or Thursday dinner with the
-        crew? Vote on dates, chat with your group, share photos, and split
+        crew? Vote on dates, <br />chat with your group, share photos, and split
         expenses—all in one place.
       </p>
 
