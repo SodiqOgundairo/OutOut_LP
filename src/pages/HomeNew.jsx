@@ -12,7 +12,7 @@ const HomeNew = () => {
     <div className="">
       <Header />
 
-    <main className="flex flex-col items-center justify-center text-center ">
+    {/* <main className="flex flex-col items-center justify-center text-center ">
       <div className="flex flex-col items-center justify-center text-center gap-6 lg:gap-12 mt-6 lg:mt-12 pt-5 md:pt-10">
 
       <h1 className="text-bolder text-primary text-4xl font-bold w-4/5 md:text-5xl md:w-3/5 lg:text-6xl lg:w-3/5 ">
@@ -45,7 +45,7 @@ const HomeNew = () => {
 
       </div>
       <img src={OutOutMockup} alt="OutOutMockup" className="md:w-2/5 z-50 mx-auto absolute bottom-0"/>
-    </main>
+    </main> */}
       <img src={bgOne} alt="doodles" className="absolute bottom-0 right-0"/>
       <img src={bgTwo} alt="doodles" className="absolute bottom-0 left-0"/>
     </div>
