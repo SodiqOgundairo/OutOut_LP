@@ -16,7 +16,7 @@ const HomeNew = () => {
         
       </main> */}
 
-    <main className="flex flex-col items-center justify-center text-center gap-3 md:6 lg:gap-12 mt-4 md:mt-7 lg:mt-16">
+    <main className="flex flex-col items-center justify-center text-center gap-3 lg:gap-12 mt-4 lg:mt-16">
       {/* <div className="flex flex-col items-center justify-center text-center gap-6 lg:gap-12 mt-6 lg:mt-12 pt-5 md:pt-10"> */}
 
       <h1 className="text-bolder text-primary text-4xl font-bold w-4/5 md:text-5xl md:w-3/5 lg:text-6xl lg:w-3/5 ">
