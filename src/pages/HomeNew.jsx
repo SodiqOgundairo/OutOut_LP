@@ -16,14 +16,14 @@ const HomeNew = () => {
         
       </main> */}
 
-    <main className="flex flex-col items-center justify-center text-center gap-3 lg:gap-5 xl:gap-12 mt-4 lg:mt-10 xl:mt-16">
+    <main className="flex flex-col items-center justify-center text-center gap-3 lg:gap-4 mt-4 lg:mt-4 ">
       {/* <div className="flex flex-col items-center justify-center text-center gap-6 lg:gap-12 mt-6 lg:mt-12 pt-5 md:pt-10"> */}
 
       <h1 className="text-bolder text-primary text-4xl font-bold w-4/5 md:text-5xl md:w-3/5 lg:text-5xl lg:w-3/5 xl:text-6xl">
         Share trips with the <br className="hidden md:block" /> ones you love
       </h1>
 
-      <p className="text-primary w-4/5 lg:w-2/5 ">
+      <p className="text-primary w-4/5 lg:w-3/5 ">
         A weekend getaway with your best friends or Thursday dinner with the
         crew? Vote on dates, chat with your group, share photos, and split
         expenses—all in one place.
