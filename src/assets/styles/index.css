@@ -1,0 +1,424 @@
+@import "tailwindcss";
+@source "../../../node_modules/devign/dist";
+
+/* ── SF Pro Display — shipped by the OutOut mobile app
+   (see OutOut2/assets/fonts/SF-Pro-Display-*.otf).
+   Loaded the same four weights, no expanded/condensed axis — the
+   mobile app does not ship Apple's variable SF-Pro variant. ── */
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("../fonts/SF-Pro-Display-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("../fonts/SF-Pro-Display-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("../fonts/SF-Pro-Display-Semibold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("../fonts/SF-Pro-Display-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Design tokens ported from OutOut Flutter app
+   (lib/design_system/tokens/{primitives,semantic,typography}.dart)
+   Exposed via @theme so Tailwind v4 auto-generates utilities:
+     bg-brand-primary-500, text-fg-secondary, rounded-pill, etc.
+   ────────────────────────────────────────────────────────────── */
+@theme {
+  /* ── Brand Primary ── */
+  --color-brand-primary-50: #fff6ed;
+  --color-brand-primary-100: #ffeedb;
+  --color-brand-primary-200: #ffddb7;
+  --color-brand-primary-300: #fecd94;
+  --color-brand-primary-400: #febc70;
+  --color-brand-primary-500: #feab4c;
+  --color-brand-primary-600: #cb893d;
+  --color-brand-primary-700: #98672e;
+  --color-brand-primary-800: #66441e;
+  --color-brand-primary-900: #33220f;
+
+  /* ── Neutral ── */
+  --color-neutral-50: #fcfcfc;
+  --color-neutral-75: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #d4d4d4;
+  --color-neutral-400: #a3a3a3;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #525252;
+  --color-neutral-700: #404040;
+  --color-neutral-800: #262626;
+  --color-neutral-900: #171717;
+  --color-neutral-1000: #0a0a0a;
+
+  /* ── Slate / Stone (subset for semantic refs) ── */
+  --color-slate-50: #f8fafc;
+  --color-slate-900: #0f172a;
+
+  /* ── Status palettes (500 + 400 + 700 are most used) ── */
+  --color-red-400: #e5415d;
+  --color-red-500: #de1135;
+  --color-red-700: #850a20;
+  --color-green-400: #3cc059;
+  --color-green-500: #0bb02f;
+  --color-green-700: #076a1c;
+  --color-blue-300: #66b0ff;
+  --color-blue-400: #3395ff;
+  --color-blue-500: #007bff;
+  --color-blue-700: #004a99;
+  --color-lime-300: #bef264;
+  --color-lime-500: #84cc16;
+  --color-lime-700: #4d7c0f;
+  --color-amber-300: #ffc966;
+  --color-amber-500: #ffa500;
+  --color-amber-700: #996300;
+  --color-purple-400: #8d7cfb;
+  --color-purple-500: #705bfa;
+  --color-purple-700: #433796;
+  --color-fuchsia-300: #f0abfc;
+  --color-fuchsia-500: #d946ef;
+  --color-fuchsia-700: #a21caf;
+  --color-pink-400: #f472b6;
+  --color-pink-500: #ec4899;
+  --color-pink-700: #be185d;
+  --color-rose-400: #fb7185;
+  --color-rose-500: #f43f5e;
+  --color-rose-700: #be123c;
+
+  /* ── Semantic — Background ── */
+  --color-bg-primary: #0a0a0a;
+  --color-bg-secondary: #171717;
+  --color-bg-tertiary: #262626;
+  --color-bg-blur: rgba(255, 255, 255, 0.08);
+  --color-bg-inverse: #fcfcfc;
+  --color-bg-overlay: rgba(5, 5, 5, 0.8);
+  --color-bg-nav-default: #0a0a0a;
+  --color-bg-nav-elevated: rgba(10, 10, 10, 0.7);
+
+  /* ── Semantic — Foreground ── */
+  --color-fg-primary: #f8fafc;
+  --color-fg-secondary: rgba(248, 250, 252, 0.6);
+  --color-fg-tertiary: rgba(248, 250, 252, 0.45);
+  --color-fg-disabled: rgba(248, 250, 252, 0.35);
+  --color-fg-on-color: #fcfcfc;
+  --color-fg-on-color-alt: #0f172a;
+  --color-fg-brand: #febc70;
+
+  /* ── Semantic — Stroke ── */
+  --color-stroke-primary: rgba(248, 250, 252, 0.1);
+  --color-stroke-secondary: rgba(248, 250, 252, 0.06);
+  --color-stroke-disabled: rgba(248, 250, 252, 0.1);
+  --color-stroke-brand: #febc70;
+
+  /* ── Pill accents (Figma landing scatter) ── */
+  --color-pill-acid: #d9fc00;
+  --color-pill-lilac: #e6bcfe;
+  --color-pill-coral: #fe4646;
+  --color-pill-magenta: #fe4c9f;
+  --color-pill-mint: #45e1ba;
+  --color-pill-plum: #640233;
+  --color-pill-cyan: #06b6d4;
+
+  /* ── Semantic — Buttons ── */
+  --color-btn-bg-primary: #fcfcfc;
+  --color-btn-bg-secondary: rgba(255, 255, 255, 0.12);
+  --color-btn-bg-disabled: rgba(255, 255, 255, 0.05);
+  --color-btn-bg-destructive: #e5415d;
+  --color-btn-fg-on-primary: #171717;
+  --color-btn-fg-on-secondary: #f8fafc;
+  --color-btn-fg-tertiary: #fcfcfc;
+  --color-btn-fg-disabled: #a3a3a3;
+  --color-btn-fg-destructive: #de1135;
+
+  /* ── Spacing (mirrors AppSpacing unit*) ── */
+  --spacing-unit0: 0px;
+  --spacing-unit1: 2px;
+  --spacing-unit2: 4px;
+  --spacing-unit3: 8px;
+  --spacing-unit4: 12px;
+  --spacing-unit5: 16px;
+  --spacing-unit6: 20px;
+  --spacing-unit7: 24px;
+  --spacing-unit8: 28px;
+  --spacing-unit9: 32px;
+  --spacing-unit10: 40px;
+  --spacing-unit11: 48px;
+  --spacing-unit12: 56px;
+  --spacing-unit13: 64px;
+  --spacing-unit14: 80px;
+  --spacing-unit15: 96px;
+  --spacing-unit16: 128px;
+  --spacing-unit17: 160px;
+
+  /* ── Radius (mirrors AppRadius unit*) ── */
+  --radius-unit0: 0px;
+  --radius-unit1: 4px;
+  --radius-unit2: 6px;
+  --radius-unit3: 8px;
+  --radius-unit4: 12px;
+  --radius-unit5: 16px;
+  --radius-pill: 9999px;
+
+  /* ── Typography — fonts ── */
+  --font-sans: "SF Pro Display", "Inter", system-ui, -apple-system, sans-serif;
+
+  /* ── Layout — global 1440px content cap ── */
+  --content-max-w: 1440px;
+
+  /* ── Typography — type scale (mirrors AppTextStyles) ── */
+  --text-display: 6rem;
+  --text-display--line-height: 1.5;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 700;
+
+  --text-h1: 3.75rem;
+  --text-h1--line-height: 1.5;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h1--font-weight: 700;
+
+  --text-h2: 3rem;
+  --text-h2--line-height: 1.5;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h2--font-weight: 700;
+
+  --text-h3: 2.125rem;
+  --text-h3--line-height: 1.5;
+  --text-h3--letter-spacing: -0.02em;
+  --text-h3--font-weight: 700;
+
+  --text-h4: 1.75rem;
+  --text-h4--line-height: 1.5;
+  --text-h4--letter-spacing: -0.02em;
+  --text-h4--font-weight: 700;
+
+  --text-h5: 1.5rem;
+  --text-h5--line-height: 1.2;
+  --text-h5--letter-spacing: -0.02em;
+  --text-h5--font-weight: 700;
+
+  --text-h6: 1.25rem;
+  --text-h6--line-height: 1.5;
+  --text-h6--letter-spacing: -0.02em;
+  --text-h6--font-weight: 700;
+
+  --text-h7: 1.125rem;
+  --text-h7--line-height: 1.5;
+  --text-h7--letter-spacing: -0.02em;
+  --text-h7--font-weight: 700;
+
+  --text-l0: 1.125rem;
+  --text-l0--line-height: 1.4;
+  --text-l0--letter-spacing: -0.02em;
+  --text-l0--font-weight: 600;
+
+  --text-l1: 1rem;
+  --text-l1--line-height: 1.4;
+  --text-l1--letter-spacing: -0.006em;
+  --text-l1--font-weight: 600;
+
+  --text-l2: 0.875rem;
+  --text-l2--line-height: 1.4;
+  --text-l2--letter-spacing: -0.02em;
+  --text-l2--font-weight: 500;
+
+  --text-p1: 1rem;
+  --text-p1--line-height: 1.5;
+  --text-p1--letter-spacing: -0.006em;
+  --text-p1--font-weight: 400;
+
+  --text-p2: 0.875rem;
+  --text-p2--line-height: 1.5;
+  --text-p2--letter-spacing: -0.006em;
+  --text-p2--font-weight: 400;
+
+  --text-btn-xl: 1.125rem;
+  --text-btn-xl--line-height: 1.4;
+  --text-btn-xl--letter-spacing: -0.006em;
+  --text-btn-xl--font-weight: 600;
+
+  --text-btn-lg: 1rem;
+  --text-btn-lg--line-height: 1.4;
+  --text-btn-lg--letter-spacing: -0.006em;
+  --text-btn-lg--font-weight: 600;
+
+  --text-btn-md: 0.875rem;
+  --text-btn-md--line-height: 1.4;
+  --text-btn-md--letter-spacing: -0.006em;
+  --text-btn-md--font-weight: 600;
+}
+
+@layer base {
+  :root {
+    /* Devign component overrides — map its tokens onto OutOut semantic system */
+    --color-primary: var(--color-brand-primary-500);
+    --color-primary-foreground: var(--color-neutral-900);
+    --color-secondary: var(--color-bg-secondary);
+    --color-secondary-foreground: var(--color-fg-primary);
+    --color-background: var(--color-bg-primary);
+    --color-foreground: var(--color-fg-primary);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg-primary);
+    color: var(--color-fg-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
+
+/*
+  Holographic title fill — clips the pastel iridescent texture from
+  `src/assets/images/backgrounds/money_bg.png` into text shape. The slow background
+  position drift gives the gradient a living, oil-slick shimmer.
+*/
+@keyframes holoShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.holo-text {
+  background-image: url("../images/backgrounds/money_bg.png");
+  background-size: 240% 240%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: holoShift 10s ease-in-out infinite;
+  /* Soft glow so the pastel text reads on dark backgrounds */
+  filter: drop-shadow(0 2px 12px rgba(255, 255, 255, 0.08));
+  /*
+    Width hack: the shipped SF Pro Display OTFs have no width axis, so we
+    approximate the Figma "Expanded Bold" feel by stretching the rendered
+    glyphs horizontally. font-stretch first (works on variable fonts /
+    future-proof), with a CSS transform fallback.
+    transform-origin: left center keeps the visual left edge flush with
+    the bbox left edge, so every line in the title (regardless of its
+    own width) shares the same visual left x and aligns cleanly with the
+    body text and badges below it. The rightward overflow that this
+    causes is absorbed by the larger gap on the title row.
+  */
+  font-stretch: 140%;
+  display: inline-block;
+  transform: scaleX(1.18);
+  transform-origin: left center;
+}
+
+/*
+  Stretched pill labels — same approach as .holo-text. Applied to the label
+  span inside each scattered pill so the chips read as wider stadiums.
+*/
+.pill-label-wide {
+  display: inline-block;
+  font-stretch: 125%;
+  transform: scaleX(1.08);
+  transform-origin: left center;
+}
+
+/* Dust particle animation — used by the physics pills band on impact.
+   Each particle is positioned with `--dx` / `--dy` randomised in JS, then
+   drifts up and fades out over ~700ms. */
+@keyframes pillDustPoof {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.4);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(calc(var(--dx, 0) * 0.25), calc(var(--dy, -20px) * 0.25)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx, 0), var(--dy, -20px)) scale(1.6);
+  }
+}
+.pill-dust-anim {
+  animation: pillDustPoof 1100ms cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+
+@layer components {
+  /*
+    Hero grid:
+    - Mobile (single column): title → body → badges → carousel.
+    - Desktop (md+): two columns. Left cell stacks title / body / badges,
+      right cell holds the carousel. Both cells vertically centred.
+    Body text now shown on every viewport per the latest spec.
+  */
+  .hero-grid {
+    display: grid;
+    width: 100%;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 768px) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      align-items: center;
+      gap: 3rem;
+    }
+  }
+
+  /* Privacy card scrollbar — thin, subtle, only visible inside the card. */
+  .policy-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  }
+  .policy-scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+  .policy-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .policy-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.16);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  .policy-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.28);
+    background-clip: padding-box;
+  }
+
+  /* Global content container — caps at 1440px on the largest screens.
+     Use on every page section that isn't deliberately edge-to-edge
+     (background images, scattered-pill bands, marquees, etc.). */
+  .content-container {
+    width: 100%;
+    max-width: var(--content-max-w);
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .content-container { padding-inline: 3rem; }
+  }
+  @media (min-width: 1280px) {
+    .content-container { padding-inline: 6rem; }
+  }
+}
