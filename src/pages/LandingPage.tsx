@@ -5,7 +5,7 @@ import FeatureShowcase from "../components/landing/FeatureShowcase";
 import SplashIntro from "../components/landing/SplashIntro";
 import StoreBadges from "../components/landing/StoreBadges";
 import heroBg from "../assets/images/backgrounds/hero-bg.webp";
-import palmUrl from "../assets/images/logo/palm.svg";
+import palmUrl from "../assets/images/logo/palm.webp";
 
 // matter-js (~85KB) only lives in ScatteredPills, so we defer it to a
 // separate chunk that loads after the hero is interactive.

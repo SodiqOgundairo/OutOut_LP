@@ -19,7 +19,7 @@ export default function StoreBadges() {
       <a
         href="#"
         aria-label="Get it on Google Play"
-        className="relative block h-[44px] w-[148px] overflow-hidden rounded-[5px] border border-[#a6a6a6] bg-black transition-opacity hover:opacity-90 md:h-[60px] md:w-[202.5px]"
+        className="relative block h-[38px] w-[128px] overflow-hidden rounded-[5px] border border-[#a6a6a6] bg-black transition-opacity hover:opacity-90 md:h-[48px] md:w-[162px]"
       >
         {/*
           Figma exported these three Google-Play SVGs already flipped — the
@@ -71,7 +71,7 @@ export default function StoreBadges() {
       <a
         href="#"
         aria-label="Download on the App Store"
-        className="relative block h-[44px] w-[132px] overflow-hidden rounded-[7px] border border-[#a6a6a6] bg-[#0c0d10] transition-opacity hover:opacity-90 md:h-[60px] md:w-[180px]"
+        className="relative block h-[38px] w-[114px] overflow-hidden rounded-[7px] border border-[#a6a6a6] bg-[#0c0d10] transition-opacity hover:opacity-90 md:h-[48px] md:w-[144px]"
       >
         {/* Apple logo */}
         <img

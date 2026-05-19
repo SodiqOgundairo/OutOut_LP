@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "devign";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import logoUrl from "../assets/images/logo/logo.svg";
+import logoUrl from "../assets/images/logo/logo.webp";
 
 /**
  * Shared site header. Used by both the landing page and the privacy page.

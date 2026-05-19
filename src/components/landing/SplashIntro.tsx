@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
-import logoUrl from "../../assets/images/logo/logo.svg";
+import logoUrl from "../../assets/images/logo/logo.webp";
 
 /**
  * Splash intro that mirrors the mobile app's entrance:
