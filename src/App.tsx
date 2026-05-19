@@ -1,7 +1,10 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
 
-const LandingPage = lazy(() => import("./pages/LandingPage"));
+// "/" is the entry route, so we import it statically — that lets Vite
+// emit modulepreload tags for its deps (motion, ui, helmet) instead of
+// chaining a lazy-fetch waterfall before first paint.
 const Privacy = lazy(() => import("./pages/Privacy"));
 
 export default function App() {

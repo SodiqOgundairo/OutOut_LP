@@ -53,7 +53,7 @@ export default function Header() {
           <Button
             variant="ghost"
             size="xl"
-            className="!rounded-pill !h-14 !px-unit7 !text-l0 !font-semibold !text-fg-primary hover:!bg-bg-tertiary"
+            className="!rounded-pill !h-11 !px-unit5 !text-l2 !font-semibold !text-fg-primary hover:!bg-bg-tertiary lg:!h-12 lg:!px-unit6 lg:!text-l1"
           >
             Request Support
           </Button>
@@ -62,7 +62,7 @@ export default function Header() {
           <Button
             variant="secondary"
             size="xl"
-            className={`!rounded-pill !h-14 !px-unit7 !text-l0 !font-semibold ${
+            className={`!rounded-pill !h-11 !px-unit5 !text-l2 !font-semibold lg:!h-12 lg:!px-unit6 lg:!text-l1 ${
               onPrivacy
                 ? "!bg-neutral-50 !text-neutral-900 hover:!bg-neutral-200"
                 : "!text-fg-primary !bg-bg-tertiary hover:!bg-neutral-700"
@@ -106,7 +106,7 @@ export default function Header() {
                 href="mailto:get@outout.app"
                 role="menuitem"
                 onClick={() => setOpen(false)}
-                className="block px-unit5 py-unit4 text-l1 font-semibold text-fg-primary transition-colors hover:bg-white/10"
+                className="block px-unit5 py-unit3 text-l2 font-semibold text-fg-primary transition-colors hover:bg-white/10"
               >
                 Request Support
               </a>
@@ -115,7 +115,7 @@ export default function Header() {
                 to="/privacy"
                 role="menuitem"
                 onClick={() => setOpen(false)}
-                className={`block px-unit5 py-unit4 text-l1 font-semibold text-fg-primary transition-colors hover:bg-white/10 ${
+                className={`block px-unit5 py-unit3 text-l2 font-semibold text-fg-primary transition-colors hover:bg-white/10 ${
                   onPrivacy ? "bg-white/10" : ""
                 }`}
               >
