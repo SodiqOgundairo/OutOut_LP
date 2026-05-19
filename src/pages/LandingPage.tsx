@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { Helmet } from "react-helmet-async";
 import Header from "../components/Header";
 import FeatureShowcase from "../components/landing/FeatureShowcase";
+import SplashIntro from "../components/landing/SplashIntro";
 import StoreBadges from "../components/landing/StoreBadges";
 import heroBg from "../assets/images/backgrounds/hero-bg.webp";
 import palmUrl from "../assets/images/logo/palm.svg";
@@ -26,6 +27,7 @@ export default function LandingPage() {
         page (header + hero + pills) fits without scrolling.
         Background is full-bleed; only inner sections are capped at 1440px.
       */}
+      <SplashIntro />
       <main className="relative flex w-full flex-col bg-bg-primary text-fg-primary md:h-dvh md:overflow-hidden md:py-unit5">
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <img
@@ -108,7 +110,7 @@ function Hero() {
 function Title({ children }: { children: React.ReactNode }) {
   return (
     <span
-      className="holo-text font-sans font-bold leading-tight tracking-tight"
+      className="holo-text font-sans font-black leading-tight tracking-tight"
       style={{
         fontSize: "clamp(1.75rem, 4.6vw, 4.25rem)",
         letterSpacing: "-0.01em",

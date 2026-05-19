@@ -310,6 +310,11 @@
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
+  /* Subset only ships up to weight 700; pair font-black (900) with a hairline
+     webkit-text-stroke + paint-order so the gradient still paints over the
+     stroke, giving us visibly heavier glyphs without shipping a Heavy/Black file. */
+  -webkit-text-stroke: 0.7px rgba(255, 240, 220, 0.85);
+  paint-order: stroke fill;
   animation: holoShift 10s ease-in-out infinite;
   /* Soft glow so the pastel text reads on dark backgrounds */
   filter: drop-shadow(0 2px 12px rgba(255, 255, 255, 0.08));

@@ -138,7 +138,9 @@ export default function ScatteredPills() {
     // local matter coords (container top = 0; viewport top = -container.top).
     const containerRect = container.getBoundingClientRect();
     const viewportH = window.innerHeight;
-    const ceilingY = -containerRect.top;
+    // Clamp ceiling at or above the container's top so a scrolled-up
+    // band can't have its ceiling slide INTO the container and pinch pills.
+    const ceilingY = Math.min(0, -containerRect.top);
     const wallCenterY = viewportH / 2 - containerRect.top;
     const wallSpan = viewportH * 2;
 
@@ -442,17 +444,41 @@ export default function ScatteredPills() {
     raf = requestAnimationFrame(frame);
 
     // ── Resize: move walls to match new dimensions ──────────────────
+    // Also re-clamp any pill that ended up outside the new walls. Without
+    // this, shrinking the viewport leaves pills wedged inside the right/
+    // bottom wall bodies, where the solver shoves them out at high speed
+    // (or fails altogether and they fall through). Result: pills vanish.
     const onResize = () => {
       const newW = container.clientWidth;
       const newH = container.clientHeight;
       const newRect = container.getBoundingClientRect();
       const newViewportH = window.innerHeight;
-      const newCeilingY = -newRect.top;
+      // Clamp ceiling so it never moves INTO the container (which would
+      // pinch pills against the floor). When the band is scrolled past the
+      // top of the viewport, -rect.top is positive; cap it at 0.
+      const newCeilingY = Math.min(0, -newRect.top);
       const newWallCenterY = newViewportH / 2 - newRect.top;
       Matter.Body.setPosition(floor, { x: newW / 2, y: newH + wallThickness / 2 });
       Matter.Body.setPosition(ceiling, { x: newW / 2, y: newCeilingY - wallThickness / 2 });
       Matter.Body.setPosition(right, { x: newW + wallThickness / 2, y: newWallCenterY });
       Matter.Body.setPosition(left, { x: -wallThickness / 2, y: newWallCenterY });
+
+      for (const p of pills) {
+        if (p.spawnedAt === 0) continue;
+        const halfW = p.w / 2;
+        const halfH = p.h / 2;
+        let { x, y } = p.body.position;
+        let moved = false;
+        if (x < halfW + 2)        { x = halfW + 4; moved = true; }
+        if (x > newW - halfW - 2) { x = newW - halfW - 4; moved = true; }
+        if (y > newH - halfH - 2) { y = newH - halfH - 4; moved = true; }
+        if (y < newCeilingY + halfH + 2) { y = newCeilingY + halfH + 4; moved = true; }
+        if (moved) {
+          Matter.Body.setPosition(p.body, { x, y });
+          Matter.Body.setVelocity(p.body, { x: 0, y: 0 });
+          Matter.Body.setAngularVelocity(p.body, 0);
+        }
+      }
     };
     window.addEventListener("resize", onResize);
 
@@ -494,7 +520,7 @@ export default function ScatteredPills() {
           ref={(el) => {
             pillRefs.current[i] = el;
           }}
-          className="absolute left-0 top-0 flex origin-center items-center gap-1 rounded-pill py-[2px] pl-[2px] pr-[7px] md:gap-1.5 md:py-[3px] md:pl-[3px] md:pr-[10px] lg:gap-1.5 lg:py-[4px] lg:pl-[4px] lg:pr-[11px] xl:gap-2 xl:py-[5px] xl:pl-[5px] xl:pr-[14px]"
+          className="absolute left-0 top-0 flex origin-center items-center gap-1 rounded-pill py-[2px] pl-[2px] pr-[12px] md:gap-1.5 md:py-[3px] md:pl-[3px] md:pr-[16px] lg:gap-1.5 lg:py-[4px] lg:pl-[4px] lg:pr-[18px] xl:gap-2 xl:py-[5px] xl:pl-[5px] xl:pr-[22px]"
           style={{
             backgroundColor: p.bg,
             opacity: 0,
@@ -513,7 +539,7 @@ export default function ScatteredPills() {
           <span
             className="pill-label-wide whitespace-nowrap font-sans text-[18px] leading-none md:text-[20px] lg:text-[22px] xl:text-[28px]"
             style={{
-              fontWeight: 700,
+              fontWeight: 600,
               letterSpacing: "-0.01em",
               color: p.fg === "dark" ? "var(--color-neutral-900)" : "var(--color-fg-primary)",
             }}
