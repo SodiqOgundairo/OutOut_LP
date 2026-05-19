@@ -276,6 +276,11 @@
 
   html {
     color-scheme: dark;
+    /* Belt-and-braces horizontal clip. The expanded title (scaleX(1.18))
+       and pill labels (scaleX(1.08)) intentionally paint a few px past
+       their layout box; on narrow mobile that bleed becomes a visible
+       horizontal scroll. `clip` clips without creating a scroll context. */
+    overflow-x: clip;
   }
 
   body {
@@ -284,6 +289,7 @@
     color: var(--color-fg-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
   }
 
   #root {

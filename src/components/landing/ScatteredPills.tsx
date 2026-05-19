@@ -184,7 +184,7 @@ export default function ScatteredPills() {
       // teleports it into the band. This eliminates the just-in-time
       // rasterization hitch that read as a brief hang mid-fall.
       el.style.opacity = "1";
-      el.style.transform = `translate(-9999px, -9999px) scale(0.55)`;
+      el.style.transform = `translate3d(-9999px, -9999px, 0) scale(0.55)`;
       // Distribute spawn points across the band — band-edges padded by the
       // pill half-width so pills don't immediately collide with the side walls.
       // Tiered y offsets stagger their entry vertically as well so they don't
@@ -462,7 +462,11 @@ export default function ScatteredPills() {
         } else {
           scale = 0.55;
         }
-        p.el.style.transform = `translate(${x - p.w / 2}px, ${y - p.h / 2}px) rotate(${p.body.angle}rad) scale(${scale.toFixed(3)})`;
+        // translate3d (not translate) forces GPU layer promotion on iOS
+        // Safari. Without the 3d hint, Safari sometimes keeps the pill on
+        // the main thread, which produces the stutter that Android Chrome
+        // doesn't show.
+        p.el.style.transform = `translate3d(${x - p.w / 2}px, ${y - p.h / 2}px, 0) rotate(${p.body.angle}rad) scale(${scale.toFixed(3)})`;
       }
       raf = requestAnimationFrame(frame);
     };
@@ -555,7 +559,8 @@ export default function ScatteredPills() {
             // — fading in mid-fall was causing mobile JIT-rasterization
             // hitches that looked like the pill hanging mid-air.
             willChange: "transform",
-            boxShadow: "0 6px 14px rgba(0,0,0,0.22)",
+            boxShadow: "0 4px 8px rgba(0,0,0,0.22)",
+            backfaceVisibility: "hidden",
           }}
         >
           <img
