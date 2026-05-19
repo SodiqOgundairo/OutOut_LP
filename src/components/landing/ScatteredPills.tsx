@@ -165,14 +165,26 @@ export default function ScatteredPills() {
       h: number;
       /** Wall-clock ms when the body entered the world; 0 before drop. */
       spawnedAt: number;
+      /** Real X/Y the body teleports to when it enters the world. */
+      spawnX: number;
+      spawnY: number;
     };
     const pills: PillEntry[] = [];
+    const PARK_X = -20000;
+    const PARK_Y = -20000;
 
     pillRefs.current.forEach((el) => {
       if (!el) return;
       const rect = el.getBoundingClientRect();
       const w = rect.width;
       const h = rect.height;
+      // Pre-rasterize: park each pill visibly off-screen at opacity 1 so
+      // mobile compositors paint its texture now. The body's *real* spawn
+      // position is set later (in the drop timer), at which point physics
+      // teleports it into the band. This eliminates the just-in-time
+      // rasterization hitch that read as a brief hang mid-fall.
+      el.style.opacity = "1";
+      el.style.transform = `translate(-9999px, -9999px) scale(0.55)`;
       // Distribute spawn points across the band — band-edges padded by the
       // pill half-width so pills don't immediately collide with the side walls.
       // Tiered y offsets stagger their entry vertically as well so they don't
@@ -189,7 +201,10 @@ export default function ScatteredPills() {
       const SHRINK = 3;
       const bodyW = Math.max(2, w - SHRINK);
       const bodyH = Math.max(2, h - SHRINK);
-      const body = Matter.Bodies.rectangle(spawnX, spawnY, bodyW, bodyH, {
+      // Body is created at a far-offscreen park position so the frame loop
+      // renders the pill far outside the viewport until the drop timer
+      // teleports it to its real spawn point.
+      const body = Matter.Bodies.rectangle(PARK_X, PARK_Y, bodyW, bodyH, {
         chamfer: { radius: bodyH / 2, qualityMin: 16, qualityMax: 30 },
         restitution: 0.32,
         friction: 0.55,
@@ -199,7 +214,7 @@ export default function ScatteredPills() {
         slop: 0.005,
       });
       Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.08);
-      pills.push({ body, el, w, h, spawnedAt: 0 });
+      pills.push({ body, el, w, h, spawnedAt: 0, spawnX, spawnY });
     });
 
     // ── Stagger drop ────────────────────────────────────────────────
@@ -217,8 +232,11 @@ export default function ScatteredPills() {
         }
         const p = pills[dropIndex++];
         p.spawnedAt = base + n * 25;
+        // Teleport the body from its off-screen park position to its real
+        // spawn point, then hand it to the physics world.
+        Matter.Body.setPosition(p.body, { x: p.spawnX, y: p.spawnY });
+        Matter.Body.setVelocity(p.body, { x: 0, y: 0 });
         Matter.World.add(world, p.body);
-        p.el.style.opacity = "1";
       }
     }, SPAWN_INTERVAL_MS);
 
@@ -234,27 +252,34 @@ export default function ScatteredPills() {
     // @ts-expect-error — Matter's typings hide the wheel handler.
     if (mouse.element && mouse.mousewheel) mouse.element.removeEventListener("wheel", mouse.mousewheel);
 
-    // Moderate stiffness + a bit of damping — picks feel responsive without
-    // the high-stiffness oscillation that was making drags read as "glitchy".
-    // A soft constraint means the body lags the cursor, so on release its
-    // residual velocity is tiny. We compensate below by sampling the recent
-    // cursor velocity and applying it directly to the body on enddrag.
+    // Tighter constraint than before. The previous 0.25/0.1 felt rubbery on
+    // desktop but on mobile (where finger speed easily outruns rAF) it read
+    // as the pill hanging mid-air during fast drags. 0.45 keeps a little
+    // give without the body visibly trailing the finger.
     const mouseConstraint = Matter.MouseConstraint.create(engine, {
       mouse,
-      constraint: { stiffness: 0.25, damping: 0.1, render: { visible: false } },
+      constraint: { stiffness: 0.45, damping: 0.05, render: { visible: false } },
     });
     Matter.World.add(world, mouseConstraint);
 
     // ── Throw-velocity transfer ─────────────────────────────────────
-    // Cursor history is sampled every frame. CRITICAL: we must snapshot
-    // velocity at the moment the user releases — if we wait until matter's
-    // next-tick `enddrag` to read history, the buffer will already be
-    // polluted with post-release stationary samples and the computed
-    // velocity collapses to ~0 (this was the "throw hangs in midair" bug).
+    // Cursor history is sampled on every pointer-move event (NOT per rAF).
+    // On mobile, rAF can be throttled below the touchmove rate, so a fast
+    // flick produced only 2–3 samples per frame → computed throw velocity
+    // collapsed near zero → released pill appeared to hang in mid-air. Now
+    // we capture every move sample the OS gives us, independent of frame rate.
     const cursorHistory: Array<{ x: number; y: number; t: number }> = [];
     const CURSOR_HISTORY_MS = 220;
     const FLICK_SAMPLE_MS = 110;
     const MAX_THROW = 42;
+
+    const pushCursorSample = () => {
+      const t = performance.now();
+      cursorHistory.push({ x: mouse.position.x, y: mouse.position.y, t });
+      while (cursorHistory.length > 0 && cursorHistory[0].t < t - CURSOR_HISTORY_MS) {
+        cursorHistory.shift();
+      }
+    };
 
     let pendingThrowVelocity: { x: number; y: number } | null = null;
     const captureThrowVelocity = () => {
@@ -299,10 +324,12 @@ export default function ScatteredPills() {
     };
     const onDocMouseMove = (e: MouseEvent) => {
       if (mouseConstraint.body || handBody) updateMouseFromPoint(e.clientX, e.clientY);
+      if (mouseConstraint.body) pushCursorSample();
     };
     const onDocTouchMove = (e: TouchEvent) => {
       if (!mouseConstraint.body && !handBody) return;
       if (e.touches.length > 0) updateMouseFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+      if (mouseConstraint.body) pushCursorSample();
     };
     const releaseDrag = () => {
       // Snapshot the throw velocity NOW (before any post-release stationary
@@ -415,12 +442,6 @@ export default function ScatteredPills() {
     const frame = () => {
       const now = performance.now();
 
-      // Sample the cursor for the throw-velocity buffer.
-      cursorHistory.push({ x: mouse.position.x, y: mouse.position.y, t: now });
-      while (cursorHistory.length > 0 && cursorHistory[0].t < now - CURSOR_HISTORY_MS) {
-        cursorHistory.shift();
-      }
-
       // Keep the currently-dragged body from spinning out of control. With the
       // MouseConstraint anchored at the click point (Matter's default), a
       // tile grabbed near its end can rack up wild angular velocity in a
@@ -529,14 +550,12 @@ export default function ScatteredPills() {
           className="absolute left-0 top-0 flex origin-center items-center gap-1 rounded-pill py-[2px] pl-[2px] pr-[12px] md:gap-1.5 md:py-[3px] md:pl-[3px] md:pr-[16px] lg:gap-1.5 lg:py-[4px] lg:pl-[4px] lg:pr-[18px] xl:gap-2 xl:py-[5px] xl:pl-[5px] xl:pr-[22px]"
           style={{
             backgroundColor: p.bg,
-            opacity: 0,
+            // Pills mount visible but off-screen (see useEffect) so the
+            // compositor rasterizes them ahead of time. No opacity transition
+            // — fading in mid-fall was causing mobile JIT-rasterization
+            // hitches that looked like the pill hanging mid-air.
             willChange: "transform",
-            // Static shadow. drop-shadow used to be set per-frame from the
-            // body's vertical velocity, but re-rasterizing every pill every
-            // frame was the main source of pile-up jank on mobile. A constant
-            // box-shadow on the rounded chip looks ~identical with no cost.
             boxShadow: "0 6px 14px rgba(0,0,0,0.22)",
-            transition: "opacity 750ms cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >
           <img
