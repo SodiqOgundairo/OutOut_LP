@@ -145,8 +145,17 @@ export default function ScatteredPills() {
     const wallSpan = viewportH * 2;
 
     // ── Engine + walls ──────────────────────────────────────────────
+    // enableSleeping is the single biggest perf lever once the pile settles:
+    // resting bodies stop being simulated each tick. iOS Safari's JS-thread
+    // budget is tight, so without sleeping the engine kept doing collision
+    // work for ~14 stationary pills every frame even when nothing was moving.
+    // Reduced solver iterations trade a small amount of solver accuracy
+    // (invisible at these speeds) for measurably less CPU per tick.
     const engine = Matter.Engine.create({
       gravity: { x: 0, y: 1.1, scale: 0.001 },
+      enableSleeping: true,
+      positionIterations: 4,
+      velocityIterations: 3,
     });
     const world = engine.world;
 
@@ -196,16 +205,19 @@ export default function ScatteredPills() {
       // pills' physical bodies finish touching while their (true-arc) visual
       // rounded ends still have a small gap. Shrinking the collision shape
       // by a couple of pixels per side lets the visuals overlap by that
-      // amount when bodies meet → no visible gap. Also crank chamfer quality
-      // so the polygon approximation is much closer to the true arc.
+      // amount when bodies meet → no visible gap.
       const SHRINK = 3;
       const bodyW = Math.max(2, w - SHRINK);
       const bodyH = Math.max(2, h - SHRINK);
       // Body is created at a far-offscreen park position so the frame loop
       // renders the pill far outside the viewport until the drop timer
       // teleports it to its real spawn point.
+      // Chamfer quality lowered from 16/30 → 4/8: the old values produced
+      // 30+ collision vertices per pill, which on iOS Safari turned the
+      // pile's narrowphase into a measurable JS-thread hog. The SHRINK
+      // overlap trick above already hides any tiny visible gap.
       const body = Matter.Bodies.rectangle(PARK_X, PARK_Y, bodyW, bodyH, {
-        chamfer: { radius: bodyH / 2, qualityMin: 16, qualityMax: 30 },
+        chamfer: { radius: bodyH / 2, qualityMin: 4, qualityMax: 8 },
         restitution: 0.32,
         friction: 0.55,
         frictionAir: 0.012,
