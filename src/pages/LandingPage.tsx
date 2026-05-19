@@ -1,10 +1,14 @@
+import { lazy, Suspense } from "react";
 import { Helmet } from "react-helmet-async";
 import Header from "../components/Header";
 import FeatureShowcase from "../components/landing/FeatureShowcase";
-import ScatteredPills from "../components/landing/ScatteredPills";
 import StoreBadges from "../components/landing/StoreBadges";
-import heroBg from "../assets/images/backgrounds/hero-bg.png";
+import heroBg from "../assets/images/backgrounds/hero-bg.webp";
 import palmUrl from "../assets/images/logo/palm.svg";
+
+// matter-js (~85KB) only lives in ScatteredPills, so we defer it to a
+// separate chunk that loads after the hero is interactive.
+const ScatteredPills = lazy(() => import("../components/landing/ScatteredPills"));
 
 export default function LandingPage() {
   return (
@@ -36,7 +40,9 @@ export default function LandingPage() {
         <Hero />
         {/* Pills band breaks the 1440px cap to fill the screen and claims the
             remaining vertical space (flex-1) so it's always in view. */}
-        <ScatteredPills />
+        <Suspense fallback={null}>
+          <ScatteredPills />
+        </Suspense>
       </main>
     </>
   );

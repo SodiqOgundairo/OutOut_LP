@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
-import memoryImg from "../../assets/images/features/memory.png";
-import reactionsImg from "../../assets/images/features/reactions.png";
-import eventImg from "../../assets/images/features/event.png";
-import expensesImg from "../../assets/images/features/expenses.png";
+import memoryImg from "../../assets/images/features/memory.webp";
+import reactionsImg from "../../assets/images/features/reactions.webp";
+import eventImg from "../../assets/images/features/event.webp";
+import expensesImg from "../../assets/images/features/expenses.webp";
 
 /**
  * Feature carousel for the hero.

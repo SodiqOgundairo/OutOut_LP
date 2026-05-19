@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Header from "../components/Header";
 import FloatingElements from "../components/landing/FloatingElements";
-import heroBg from "../assets/images/backgrounds/hero-bg.png";
+import heroBg from "../assets/images/backgrounds/hero-bg.webp";
 
 /**
  * Privacy policy. The page itself is locked to viewport height on md+; the

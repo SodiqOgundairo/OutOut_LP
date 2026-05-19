@@ -4,12 +4,12 @@ import Matter from "matter-js";
 // Eager-import every avatar in src/assets/images/avatars so Vite hashes and
 // bundles them. PILL data references them by number via avatar(n).
 const AVATAR_MODULES = import.meta.glob<string>(
-  "../../assets/images/avatars/avatar-*.png",
+  "../../assets/images/avatars/avatar-*.webp",
   { eager: true, import: "default", query: "?url" },
 );
 const AVATARS: Record<string, string> = {};
 for (const [path, url] of Object.entries(AVATAR_MODULES)) {
-  const m = path.match(/avatar-(\d+)\.png$/);
+  const m = path.match(/avatar-(\d+)\.webp$/);
   if (m) AVATARS[m[1]] = url;
 }
 const avatar = (n: number): string => AVATARS[String(n)];

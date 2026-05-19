@@ -1,12 +1,12 @@
 import { motion } from "motion/react";
-import avatarImg from "../../assets/images/floating/avatar.png";
-import calendarImg from "../../assets/images/floating/calendar.png";
-import creditCardImg from "../../assets/images/floating/credit-card.png";
-import expenseCardImg from "../../assets/images/floating/expense-card.png";
-import flameImg from "../../assets/images/floating/flame.png";
-import heartImg from "../../assets/images/floating/heart.png";
-import splitImg from "../../assets/images/floating/split.png";
-import tagImg from "../../assets/images/floating/tag.png";
+import avatarImg from "../../assets/images/floating/avatar.webp";
+import calendarImg from "../../assets/images/floating/calendar.webp";
+import creditCardImg from "../../assets/images/floating/credit-card.webp";
+import expenseCardImg from "../../assets/images/floating/expense-card.webp";
+import flameImg from "../../assets/images/floating/flame.webp";
+import heartImg from "../../assets/images/floating/heart.webp";
+import splitImg from "../../assets/images/floating/split.webp";
+import tagImg from "../../assets/images/floating/tag.webp";
 
 /**
  * Decorative floating elements for the privacy page background.
