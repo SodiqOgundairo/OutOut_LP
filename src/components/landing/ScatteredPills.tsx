@@ -93,6 +93,15 @@ const MD_BREAKPOINT = 768;
 const LG_BREAKPOINT = 1024;
 const XL_BREAKPOINT = 1280;
 
+type Bucket = "sm" | "md" | "lg" | "xl";
+
+function pickBucket(viewportW: number): Bucket {
+  if (viewportW < MD_BREAKPOINT) return "sm";
+  if (viewportW < LG_BREAKPOINT) return "md";
+  if (viewportW < XL_BREAKPOINT) return "lg";
+  return "xl";
+}
+
 function pickPillCount(viewportW: number): number {
   if (viewportW < MD_BREAKPOINT) return 14; // mobile
   if (viewportW < LG_BREAKPOINT) return 20; // md
@@ -110,7 +119,38 @@ function shuffle<T>(arr: readonly T[]): T[] {
   return copy;
 }
 
+/**
+ * Outer responsive wrapper. The Matter simulation is keyed by viewport tier
+ * so a resize across a breakpoint cleanly tears the engine down and rebuilds
+ * with the right pill count + body sizes. The new mount replays the staggered
+ * drop, so pills visibly fall into the new space. Debounced so dragging the
+ * window edge doesn't constantly thrash the simulation.
+ */
 export default function ScatteredPills() {
+  const [bucket, setBucket] = useState<Bucket>(() =>
+    typeof window === "undefined" ? "sm" : pickBucket(window.innerWidth),
+  );
+
+  useEffect(() => {
+    let timer: number | undefined;
+    const onResize = () => {
+      if (timer !== undefined) window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        const next = pickBucket(window.innerWidth);
+        setBucket((prev) => (prev === next ? prev : next));
+      }, 280);
+    };
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      if (timer !== undefined) window.clearTimeout(timer);
+    };
+  }, []);
+
+  return <ScatteredPillsImpl key={bucket} />;
+}
+
+function ScatteredPillsImpl() {
   const containerRef = useRef<HTMLDivElement>(null);
   const dustLayerRef = useRef<HTMLDivElement>(null);
   const pillRefs = useRef<Array<HTMLDivElement | null>>([]);
