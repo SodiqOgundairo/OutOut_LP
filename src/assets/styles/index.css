@@ -373,6 +373,84 @@
   animation: pillDustPoof 1100ms cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
 }
 
+/* ──────────────────────────────────────────────────────────────
+   404 page: broken "4 0 4" with chromatic split + electrical buzz.
+   ────────────────────────────────────────────────────────────── */
+.broken-404 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.25rem, 1vw, 1.25rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+  font-size: clamp(7rem, 26vw, 22rem);
+  perspective: 800px;
+}
+.broken-digit {
+  display: inline-block;
+  position: relative;
+  transform-origin: 50% 50%;
+  /* Chromatic split: cyan to the left, magenta to the right.
+     text-shadow paints around the glyph silhouette so it still reads
+     when the .holo-text gradient clips the fill to transparent. */
+  text-shadow:
+    -3px 0 0 rgba(0, 224, 255, 0.55),
+    3px 0 0 rgba(255, 47, 138, 0.55),
+    0 0 22px rgba(255, 220, 180, 0.18);
+  animation:
+    brokenWobble 5.5s ease-in-out infinite,
+    brokenBuzz 2.4s steps(1) infinite;
+  animation-delay: var(--glitch-delay, 0s), var(--glitch-delay, 0s);
+  will-change: transform, filter;
+}
+.broken-digit-1 {
+  transform: rotate(-14deg) skew(-6deg, 0) translateY(2%);
+}
+.broken-digit-2 {
+  transform: rotate(6deg) skew(3deg, -2deg) translateY(-3%);
+}
+.broken-digit-3 {
+  transform: rotate(12deg) skew(5deg, 1deg) translateY(4%);
+}
+/* Per-digit hard-cut glitch flicker: each digit takes a turn snapping
+   sideways / dimming so the buzz never feels synchronised. */
+@keyframes brokenBuzz {
+  0%, 100%   { filter: none; transform: translate(0, 0); }
+  6%         { filter: brightness(1.4) saturate(1.6); transform: translate(2px, -1px); }
+  7%         { filter: brightness(0.6); transform: translate(-3px, 1px); }
+  9%         { filter: none; transform: translate(0, 0); }
+  44%        { filter: brightness(0.4) hue-rotate(-30deg); transform: translate(-4px, 0); }
+  46%        { filter: none; transform: translate(0, 0); }
+  72%        { filter: brightness(1.6); transform: translate(3px, 2px); }
+  74%        { filter: none; transform: translate(0, 0); }
+}
+/* Slow drift on top of the buzz so the digits never sit dead-still. */
+@keyframes brokenWobble {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -6px; }
+}
+/* CRT scanline overlay tinted to the brand background. Sits above the
+   floating debris but below the digits and copy. */
+.notfound-scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.06) 0px,
+    rgba(255, 255, 255, 0.06) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  animation: scanlineDrift 6s linear infinite;
+}
+@keyframes scanlineDrift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 60px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .broken-digit { animation: none; }
+  .notfound-scanlines { animation: none; }
+}
+
 @layer components {
   /*
     Hero grid:

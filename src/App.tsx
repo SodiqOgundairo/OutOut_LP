@@ -6,6 +6,7 @@ import LandingPage from "./pages/LandingPage";
 // emit modulepreload tags for its deps (motion, ui, helmet) instead of
 // chaining a lazy-fetch waterfall before first paint.
 const Privacy = lazy(() => import("./pages/Privacy"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

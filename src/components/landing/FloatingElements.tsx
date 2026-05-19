@@ -9,16 +9,19 @@ import splitImg from "../../assets/images/floating/split.webp";
 import tagImg from "../../assets/images/floating/tag.webp";
 
 /**
- * Decorative floating elements for the privacy page background.
+ * Decorative floating elements used on the privacy and 404 pages.
+ *
+ * Two layout variants:
+ *  - "privacy"  (default): the original scatter, tuned around a centred policy card.
+ *  - "notfound": pushed to the corners so the big broken "404" in the middle
+ *    stays the focal point and the pieces read as drifting page debris.
  *
  * Each piece is a real image (avatar, fire, heart, polls/airbnb pill, brunch
  * tag, calendar, $60 expense card, credit card) that drifts on a slow,
- * varied loop. `pointer-events-none` so they never block scrolling or clicks
- * on the policy card.
- *
- * Positions are tuned for desktop (md+). On small screens we hide the
- * heavier pieces and shrink the rest so the card stays the focal point.
+ * varied loop. `pointer-events-none` so they never block scrolling or clicks.
  */
+
+type Variant = "privacy" | "notfound";
 
 type FloatingItemProps = {
   className?: string;
@@ -60,15 +63,44 @@ function Floating({
   );
 }
 
-export default function FloatingElements() {
+const layouts: Record<Variant, {
+  avatar: string;
+  creditCard: string;
+  flame: string;
+  heart: string;
+  split: string;
+  tag: string;
+  calendar: string;
+  expense: string;
+}> = {
+  privacy: {
+    avatar: "left-[3%] top-[14%] hidden md:block",
+    creditCard: "right-[4%] top-[12%] hidden md:block",
+    flame: "left-[20%] top-[7%] hidden lg:block",
+    heart: "right-[8%] top-[40%] hidden md:block",
+    split: "left-[4%] bottom-[18%] hidden md:block",
+    tag: "left-[36%] bottom-[8%] hidden lg:block",
+    calendar: "right-[3%] bottom-[20%] hidden md:block",
+    expense: "left-[6%] bottom-[4%] hidden xl:block",
+  },
+  // Corners-only scatter: keeps the centre clear for the giant broken "404".
+  notfound: {
+    avatar: "left-[4%] top-[18%] hidden md:block",
+    creditCard: "right-[3%] top-[15%] hidden md:block",
+    flame: "left-[12%] bottom-[24%] hidden lg:block",
+    heart: "right-[6%] top-[58%] hidden md:block",
+    split: "left-[2%] bottom-[6%] hidden lg:block",
+    tag: "right-[18%] bottom-[10%] hidden lg:block",
+    calendar: "right-[4%] bottom-[8%] hidden md:block",
+    expense: "left-[4%] top-[60%] hidden xl:block",
+  },
+};
+
+export default function FloatingElements({ variant = "privacy" }: { variant?: Variant } = {}) {
+  const pos = layouts[variant];
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
-      {/* Top-left: avatar */}
-      <Floating
-        className="left-[3%] top-[14%] hidden md:block"
-        delay={0.2}
-        duration={7}
-      >
+      <Floating className={pos.avatar} delay={0.2} duration={7}>
         <img
           src={avatarImg}
           alt=""
@@ -77,13 +109,7 @@ export default function FloatingElements() {
         />
       </Floating>
 
-      {/* Top-right: hot-pink credit card */}
-      <Floating
-        className="right-[4%] top-[12%] hidden md:block"
-        delay={1.1}
-        duration={8}
-        rotateRange={5}
-      >
+      <Floating className={pos.creditCard} delay={1.1} duration={8} rotateRange={5}>
         <img
           src={creditCardImg}
           alt=""
@@ -95,13 +121,7 @@ export default function FloatingElements() {
         />
       </Floating>
 
-      {/* Upper-mid-left: flame */}
-      <Floating
-        className="left-[20%] top-[7%] hidden lg:block"
-        delay={0.6}
-        duration={5.5}
-        rotateRange={8}
-      >
+      <Floating className={pos.flame} delay={0.6} duration={5.5} rotateRange={8}>
         <img
           src={flameImg}
           alt=""
@@ -110,13 +130,7 @@ export default function FloatingElements() {
         />
       </Floating>
 
-      {/* Mid-right: heart */}
-      <Floating
-        className="right-[8%] top-[40%] hidden md:block"
-        delay={2.0}
-        duration={7.5}
-        rotateRange={6}
-      >
+      <Floating className={pos.heart} delay={2.0} duration={7.5} rotateRange={6}>
         <img
           src={heartImg}
           alt=""
@@ -128,13 +142,7 @@ export default function FloatingElements() {
         />
       </Floating>
 
-      {/* Lower-left: "Should we split the Airbnb 5 ways?" poll pill */}
-      <Floating
-        className="left-[4%] bottom-[18%] hidden md:block"
-        delay={0.9}
-        duration={8.5}
-        rotateRange={2}
-      >
+      <Floating className={pos.split} delay={0.9} duration={8.5} rotateRange={2}>
         <img
           src={splitImg}
           alt=""
@@ -146,13 +154,7 @@ export default function FloatingElements() {
         />
       </Floating>
 
-      {/* Lower-center: brunch tag */}
-      <Floating
-        className="left-[36%] bottom-[8%] hidden lg:block"
-        delay={1.6}
-        duration={6.5}
-        rotateRange={5}
-      >
+      <Floating className={pos.tag} delay={1.6} duration={6.5} rotateRange={5}>
         <img
           src={tagImg}
           alt=""
@@ -164,13 +166,7 @@ export default function FloatingElements() {
         />
       </Floating>
 
-      {/* Mid-right-lower: calendar */}
-      <Floating
-        className="right-[3%] bottom-[20%] hidden md:block"
-        delay={2.4}
-        duration={7}
-        rotateRange={4}
-      >
+      <Floating className={pos.calendar} delay={2.4} duration={7} rotateRange={4}>
         <img
           src={calendarImg}
           alt=""
@@ -182,14 +178,7 @@ export default function FloatingElements() {
         />
       </Floating>
 
-      {/* Bottom-left big: $60 holographic expense card */}
-      <Floating
-        className="left-[6%] bottom-[4%] hidden xl:block"
-        delay={0.4}
-        duration={9}
-        yRange={8}
-        rotateRange={1.5}
-      >
+      <Floating className={pos.expense} delay={0.4} duration={9} yRange={8} rotateRange={1.5}>
         <img
           src={expenseCardImg}
           alt=""
