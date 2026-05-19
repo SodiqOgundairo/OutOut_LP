@@ -222,6 +222,12 @@ export default function ScatteredPills() {
       }
     }, SPAWN_INTERVAL_MS);
 
+    // Container rect cached and refreshed only on scroll/resize. Reading
+    // getBoundingClientRect on every pointer event forces layout and is one
+    // of the bigger sources of drag stutter on mobile.
+    let cachedRect = container.getBoundingClientRect();
+    const refreshRect = () => { cachedRect = container.getBoundingClientRect(); };
+
     // ── Mouse: native grab + invisible hand for empty-space pushing ─
     const mouse = Matter.Mouse.create(container);
     // Default Matter mouse listens for wheel which blocks page scroll — disable.
@@ -285,9 +291,8 @@ export default function ScatteredPills() {
     // anywhere on the page.
     let handBody: Matter.Body | null = null;
     const updateMouseFromPoint = (clientX: number, clientY: number) => {
-      const rect = container.getBoundingClientRect();
-      mouse.position.x = clientX - rect.left;
-      mouse.position.y = clientY - rect.top;
+      mouse.position.x = clientX - cachedRect.left;
+      mouse.position.y = clientY - cachedRect.top;
       if (handBody) {
         Matter.Body.setPosition(handBody, { x: mouse.position.x, y: mouse.position.y });
       }
@@ -317,6 +322,7 @@ export default function ScatteredPills() {
     window.addEventListener("touchend", releaseDrag);
     window.addEventListener("touchcancel", releaseDrag);
     window.addEventListener("blur", releaseDrag);
+    window.addEventListener("scroll", refreshRect, { passive: true });
 
     const onMouseDown = () => {
       // Wait a tick for MouseConstraint to bind a body, then create a hand if not.
@@ -349,6 +355,7 @@ export default function ScatteredPills() {
       // Scale count with impact speed but keep a healthy minimum so even
       // gentle landings produce a visible puff.
       const count = Math.min(14, Math.max(5, Math.round(intensity * 1.8)));
+      const batch: HTMLDivElement[] = [];
       for (let i = 0; i < count; i++) {
         const d = dustPool[dustCursor];
         dustCursor = (dustCursor + 1) % DUST_POOL_SIZE;
@@ -371,12 +378,14 @@ export default function ScatteredPills() {
           --dx: ${dx.toFixed(1)}px;
           --dy: ${dy.toFixed(1)}px;
         `;
-        // Restart animation by toggling class
         d.classList.remove("pill-dust-anim");
-        // Force reflow so the animation restarts when re-added.
-        void d.offsetWidth;
-        d.classList.add("pill-dust-anim");
+        batch.push(d);
       }
+      // Force a single reflow for the whole batch (was once per particle —
+      // each one stalled layout, which compounded into a visible hitch on
+      // every pile collision).
+      void dustLayer.offsetWidth;
+      for (const d of batch) d.classList.add("pill-dust-anim");
     };
 
     Matter.Events.on(engine, "collisionStart", (event) => {
@@ -433,11 +442,6 @@ export default function ScatteredPills() {
           scale = 0.55;
         }
         p.el.style.transform = `translate(${x - p.w / 2}px, ${y - p.h / 2}px) rotate(${p.body.angle}rad) scale(${scale.toFixed(3)})`;
-        const vy = Math.abs(p.body.velocity.y);
-        const blur = Math.min(18, 6 + vy * 1.4);
-        const offset = Math.min(14, 4 + vy * 1.0);
-        const alpha = Math.min(0.45, 0.18 + vy * 0.025);
-        p.el.style.filter = `drop-shadow(0 ${offset}px ${blur}px rgba(0,0,0,${alpha.toFixed(3)}))`;
       }
       raf = requestAnimationFrame(frame);
     };
@@ -452,6 +456,7 @@ export default function ScatteredPills() {
       const newW = container.clientWidth;
       const newH = container.clientHeight;
       const newRect = container.getBoundingClientRect();
+      cachedRect = newRect;
       const newViewportH = window.innerHeight;
       // Clamp ceiling so it never moves INTO the container (which would
       // pinch pills against the floor). When the band is scrolled past the
@@ -490,6 +495,7 @@ export default function ScatteredPills() {
       window.removeEventListener("touchend", releaseDrag);
       window.removeEventListener("touchcancel", releaseDrag);
       window.removeEventListener("blur", releaseDrag);
+      window.removeEventListener("scroll", refreshRect);
       document.removeEventListener("mousemove", onDocMouseMove);
       document.removeEventListener("touchmove", onDocTouchMove);
       container.removeEventListener("mousedown", onMouseDown);
@@ -524,9 +530,12 @@ export default function ScatteredPills() {
           style={{
             backgroundColor: p.bg,
             opacity: 0,
-            willChange: "transform, filter",
-            // Long, soft fade so each pill emerges into the band rather than
-            // popping in from the top edge.
+            willChange: "transform",
+            // Static shadow. drop-shadow used to be set per-frame from the
+            // body's vertical velocity, but re-rasterizing every pill every
+            // frame was the main source of pile-up jank on mobile. A constant
+            // box-shadow on the rounded chip looks ~identical with no cost.
+            boxShadow: "0 6px 14px rgba(0,0,0,0.22)",
             transition: "opacity 750ms cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >
