@@ -23,7 +23,9 @@ export default function StoreBadges() {
       </a>
 
       <a
-        href="#"
+        href="https://apps.apple.com/us/app/outout/id6741428356"
+        target="_blank"
+        rel="noopener noreferrer"
         aria-label="Download on the App Store"
         className="block transition-opacity hover:opacity-90"
       >
