@@ -213,10 +213,19 @@ function PolicyContent() {
         <p>
           We use <Label>PostHog</Label> to understand how the app is used so we
           can fix bugs, improve performance, and prioritise features. PostHog
-          captures product events (for example, screens viewed, features used,
-          and crash diagnostics), along with a pseudonymous device identifier
-          and basic device metadata. We do not send your name, email, phone
-          number, photos, messages, or expense details to PostHog.
+          captures product events (for example, screens viewed and features
+          used), a pseudonymous device identifier, and basic device metadata
+          such as your operating system, app version, and rough geographic
+          region. We do not send your name, email, phone number, photos,
+          messages, or expense details to PostHog.
+        </p>
+        <p>
+          PostHog also records anonymised session interactions on your device
+          (taps, scrolls, navigation between screens, and time spent on each
+          screen) so we can spot points of friction and broken flows. All text
+          and images displayed in the app are masked by default in these
+          recordings, so the words you read or type and the photos you see are
+          not visible to us.
         </p>
         <p>
           <Label>Where this data is processed:</Label> OutOut is available
