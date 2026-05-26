@@ -145,7 +145,7 @@ function PolicyContent() {
             <><Label>Location Data:</Label> To assist with event planning and location-based features (with your consent).</>,
             <><Label>Expense Data:</Label> Details related to expense tracking and cost-sharing activities (note: we do not process payment transactions).</>,
             <><Label>User Content:</Label> Photos, videos, comments, and other content shared within the app.</>,
-            <><Label>Usage Data:</Label> Information about how you interact with the app, including device information, log data, and app usage statistics.</>,
+            <><Label>Usage Data:</Label> Information about how you interact with the app, including device information, log data, and app usage statistics. This is captured via our analytics provider, PostHog (see Analytics and Product Telemetry below).</>,
           ]}
         />
       </Section>
@@ -209,6 +209,42 @@ function PolicyContent() {
         <p>Contact email for deletion requests.</p>
       </Section>
 
+      <Section title="Analytics and Product Telemetry">
+        <p>
+          We use <Label>PostHog</Label> to understand how the app is used so we
+          can fix bugs, improve performance, and prioritise features. PostHog
+          captures product events (for example, screens viewed, features used,
+          and crash diagnostics), along with a pseudonymous device identifier
+          and basic device metadata. We do not send your name, email, phone
+          number, photos, messages, or expense details to PostHog.
+        </p>
+        <p>
+          <Label>Where this data is processed:</Label> OutOut is available
+          globally, and our infrastructure and service providers operate across
+          multiple regions. Product analytics data handled by PostHog is
+          processed on infrastructure located in the{" "}
+          <Label>United States</Label>. Depending on your location, this may
+          involve an international transfer of your data. Where such transfers
+          are made from the UK, EEA, or other jurisdictions with similar
+          requirements, we rely on appropriate safeguards such as the UK
+          International Data Transfer Addendum and the EU Standard Contractual
+          Clauses, alongside PostHog's own technical and organisational
+          measures.
+        </p>
+        <p>
+          <Label>Your control:</Label> You can turn product analytics off at any
+          time from inside the app via{" "}
+          <Label>Settings, Privacy, Share usage data</Label>. When the toggle is
+          off, no further analytics events are sent from your device. You can
+          turn it back on from the same screen.
+        </p>
+        <p>
+          The legal basis for this processing is our legitimate interest in
+          maintaining and improving the service. Where required by law, we will
+          ask for your consent before enabling analytics.
+        </p>
+      </Section>
+
       <Section title="Data Retention">
         <p>
           We retain personal data only as long as necessary to fulfil the
@@ -225,9 +261,20 @@ function PolicyContent() {
 
       <Section title="International Data Transfers">
         <p>
-          If we transfer your data outside the UK, we ensure appropriate
-          safeguards are in place to protect your information, in compliance
-          with UK GDPR.
+          OutOut is a globally available app, and our service providers operate
+          across multiple regions including the United Kingdom, the European
+          Economic Area, and the United States. As a result, your information
+          may be processed in a country other than the one you are based in.
+          For example, product analytics data handled by PostHog is processed
+          in the United States.
+        </p>
+        <p>
+          Where transfers of personal data are subject to UK GDPR, EU GDPR, or
+          equivalent laws, we rely on appropriate safeguards such as the UK
+          International Data Transfer Addendum and the EU Standard Contractual
+          Clauses. For users in other jurisdictions, we comply with the
+          applicable local data protection requirements governing cross-border
+          transfers.
         </p>
       </Section>
 
